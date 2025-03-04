@@ -15,8 +15,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      #- name: Set up Docker Buildx
-      #  uses: docker/setup-buildx-action@v2
+      - name: Install Docker prerequisites
+        run: |
+          # Install iptables and other required dependencies
+          sudo dnf install -y iptables iptables-nft iptables-legacy
+          sudo dnf install -y device-mapper-persistent-data lvm2
+
+      - name: Set up Docker
+        uses: docker/setup-docker-action@v4
 
       - name: Build Docker image
         run: |
